@@ -1,15 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
 
-
-class gamelist_page:
+class GameListPage:
     def __init__(self, pref: int, game_search_word: str):
         self.url = "https://games.athleteranking.com/gamelist.php"
         self.game_ids: list[str] = []
         self.game_search_word = game_search_word
         self.pref = pref
 
-    def get_game_ids(self):
+    def get_game_ids(self) -> list[str]:
         payload: dict = {
             "pref": self.pref,  # 1は北海道
             "year_s": "2001",
@@ -21,6 +20,7 @@ class gamelist_page:
         response = requests.post(self.url, data=payload)
         response.encoding = 'euc_jis_2004'  # EUC-JPの拡張（機種依存文字対応）
         soup = BeautifulSoup(response.text, "html.parser")
+        
         # CSSセレクタで対象のリンクを一括取得
         a_tags = soup.select("td.g_l_td1 a, td.g_l_td2 a")
 
@@ -34,5 +34,6 @@ class gamelist_page:
         print(self.game_ids)
         return self.game_ids
 
-
-gamelist_page(1, "高体連新人").get_game_ids()
+if __name__ == "__main__":
+    page = GameListPage(1, "高体連新人")
+    page.get_game_ids()

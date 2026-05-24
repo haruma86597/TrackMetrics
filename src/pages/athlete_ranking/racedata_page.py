@@ -3,8 +3,7 @@ from bs4 import BeautifulSoup
 import re
 from datamodel.gender import Gender
 
-
-class racedata_page:
+class RaceDataPage:
     def __init__(self, game_id: str, gender: Gender, event_name: str):
         self.url = "https://games.athleteranking.com/racedata.php"
         self.game_id = game_id
@@ -12,7 +11,7 @@ class racedata_page:
         self.gender = gender
         self.event_id = None
 
-    def get_event_id(self):
+    def get_event_id(self) -> str | None:
         payload: dict = {
             "id": self.game_id,
             "select_game_num": self.game_id,
@@ -26,6 +25,7 @@ class racedata_page:
             target_a_tags = soup.select("td.race_l_td1 a")
         else:
             target_a_tags = soup.select("td.race_l_td2 a")
+            
         for a_tag in target_a_tags:
             if self.event_name == a_tag.get_text(strip=True):
                 onclick_text = a_tag.get('onclick', '')
@@ -37,5 +37,6 @@ class racedata_page:
                     return event_id
         return None
 
-
-racedata_page("aa512022021", Gender.MALE, "5000m").get_event_id()
+if __name__ == "__main__":
+    page = RaceDataPage("aa512022021", Gender.MALE, "5000m")
+    page.get_event_id()
