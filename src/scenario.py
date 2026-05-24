@@ -1,7 +1,7 @@
-from pages.racedata_page import racedata_page
-from pages.resultdata_page import resultdata_page
-from pages.gamelist_page import gamelist_page
-from pages.timetable_page import timetable_page
+from pages.athlete_ranking.racedata_page import racedata_page
+from pages.athlete_ranking.resultdata_page import resultdata_page
+from pages.athlete_ranking.gamelist_page import gamelist_page
+from pages.athlete_ranking.timetable_page import timetable_page
 from make_csv import parse_resultdata, make_csv
 from datamodel.gender import Gender
 
@@ -17,4 +17,4 @@ for game_id in game_ids:
 
 
 make_csv(csv_data)
-print(csv_data)
+print("csv生成成功しました。")
