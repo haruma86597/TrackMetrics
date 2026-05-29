@@ -7,8 +7,11 @@ from pages.jaaf_sapporo.gamelist_page import GameListPage as GameListPage_sappor
 from pages.jaaf_sapporo.timetable_page import TimetablePage as TimetablePage_sapporo
 from pages.jaaf_sapporo.result_page import ResultPage as ResultPage_sapporo
 from parsers.jaaf_sapporo.parser import parse_data as parse_data_sapporo
+from parsers.openmeteo.parser import parse_weather_data
 from csv_exporter import export_to_csv
+from openmeteo import call_api
 from datamodel.gender import Gender
+from datetime import datetime
 
 
 def main():
@@ -43,6 +46,17 @@ def main():
             csv_data.append(data)
 
     csv_data.sort(key=lambda x: x["year"], reverse=True)
+
+    latest_year = None
+    date_list: list[datetime] = []
+    for data in csv_data:
+        if latest_year != data["year"]:
+            latest_year = data["year"]
+            date_list.append(data["date"])
+
+    weather_df = call_api(date_list)
+    csv_data = parse_weather_data(weather_df, csv_data)
+
     export_to_csv(csv_data, "result.csv")
     print("csv生成成功しました。")
 
