@@ -10,7 +10,8 @@
                 "ms-python.python",
                 "charliermarsh.ruff",
                 "google.geminicodeassist",
-                "mechatroner.rainbow-csv"
+                "mechatroner.rainbow-csv",
+                "clemenspeters.format-json"
             ]
         }
     },

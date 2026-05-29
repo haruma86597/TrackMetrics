@@ -1,7 +1,7 @@
-from enum import Enum, unique
+from enum import StrEnum, unique
 
 
 @unique
-class Gender(Enum):
-    MALE = 1
-    FEMALE = 2
+class Gender(StrEnum):
+    MALE = "男子"
+    FEMALE = "女子"

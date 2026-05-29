@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 class GameListPage:
     def __init__(self, pref: int, game_search_word: str):
         self.url = "https://games.athleteranking.com/gamelist.php"
@@ -17,10 +18,11 @@ class GameListPage:
             "month_e": "12"
         }
 
+        print(self.url)
         response = requests.post(self.url, data=payload)
         response.encoding = 'euc_jis_2004'  # EUC-JPの拡張（機種依存文字対応）
         soup = BeautifulSoup(response.text, "html.parser")
-        
+
         # CSSセレクタで対象のリンクを一括取得
         a_tags = soup.select("td.g_l_td1 a, td.g_l_td2 a")
 
@@ -31,8 +33,8 @@ class GameListPage:
                 game_id = href.split('gid=')[-1]
                 self.game_ids.append(game_id)
 
-        print(self.game_ids)
         return self.game_ids
+
 
 if __name__ == "__main__":
     page = GameListPage(1, "高体連新人")
